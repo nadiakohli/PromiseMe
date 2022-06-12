@@ -12,6 +12,22 @@ test('Promise.reject works', () => {
     });
 })
 
+test('correct json parse works', () => {
+    return PromiseMe.resolve('{"a": 1}').then(value => {
+        return JSON.parse(value);
+    }).then(value => {
+        expect(value.a).toBe(1);
+    })
+});
+
+test('incorrect json parse fail', () => {
+    return PromiseMe.resolve('{"a": 1').then(value => {
+        return JSON.parse(value);
+    }).catch(error => {
+        expect(error.message).toBe('Unexpected end of JSON input');
+    })
+})
+
 test('custom Promise Works', () => {
     return new PromiseMe((resolve) => {
         setTimeout(() => {
